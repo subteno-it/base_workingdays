@@ -28,7 +28,7 @@ from osv import fields
 from osv import orm
 from tools.translate import _
 from dateutil.relativedelta import relativedelta
-from dateutil.rrule import rrule, rruleset, DAILY, MO, TU, WE, TH, FR, SA
+from dateutil.rrule import rrule, rruleset, DAILY, MO, TU, WE, TH, FR, SA, SU
 from datetime import datetime
 
 
@@ -99,6 +99,8 @@ class res_company(osv.osv):
                 available_weekdays.append(FR)
             if company.workingday_saturday:
                 available_weekdays.append(SA)
+            if company.workingday_sunday:
+                available_weekdays.append(SU)
 
             # List all possible days
             diff_day = rruleset()
@@ -108,7 +110,7 @@ class res_company(osv.osv):
             dates_list = list(diff_day)
             # Deletes the not working days for the selected country
             if company.country_id:
-                diff_day = res_country_workdates_obj.not_worked(cr, uid, [], company.country_id.id, diff_day, dates_list[0], dates_list[-1])
+                diff_day = res_country_workdates_obj.not_worked(cr, uid, company.country_id.id, diff_day, dates_list[0], dates_list[-1])
 
             # Add specific dates
             for spec in company.specific_working_date_ids:
@@ -220,7 +222,7 @@ class res_country_workdates(osv.osv):
 
         return diff_day
 
-    def not_worked(self, cr, uid, ids, country_id, diff_day, date_start, date_end, context=None):
+    def not_worked(self, cr, uid, country_id, diff_day, date_start, date_end, context=None):
         ir_model_data_obj = self.pool.get('ir.model.data')
 
         # Search the id.model.data for selected country
