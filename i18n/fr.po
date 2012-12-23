@@ -1,0 +1,219 @@
+# Translation of OpenERP Server.
+# This file contains the translation of the following modules:
+#	* base_workingdays
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: OpenERP Server 6.1\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-23 18:57+0000\n"
+"PO-Revision-Date: 2012-12-23 18:57+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: base_workingdays
+#: help:res.company.day.validation,before:0
+msgid "Check if the computed date must be before the original date"
+msgstr "Coché si la date calculée doit être avant la date d'origine"
+
+#. module: base_workingdays
+#: view:res.company:0
+msgid "Working Days"
+msgstr "Jours travaillés"
+
+#. module: base_workingdays
+#: constraint:res.company:0
+msgid "Error! You can not create recursive companies."
+msgstr "Erreur ! Vous ne pouvez pas créer de sociétés récursives"
+
+#. module: base_workingdays
+#: view:res.company:0
+msgid "Validation Days"
+msgstr "Jours de Validation"
+
+#. module: base_workingdays
+#: field:res.company,workingday_thursday:0
+msgid "Thursday"
+msgstr "Jeudi"
+
+#. module: base_workingdays
+#: help:res.company,workingday_wednesday:0
+msgid "Checked if employees of this company works on wednesday"
+msgstr "Coché si les employés de la société travaillent le mercredi"
+
+#. module: base_workingdays
+#: field:res.company.day.validation,field_id:0
+msgid "Field"
+msgstr "Champ"
+
+#. module: base_workingdays
+#: field:res.company,workingday_sunday:0
+msgid "Sunday"
+msgstr "Dimanche"
+
+#. module: base_workingdays
+#: help:res.company.day.validation,field_id:0
+msgid "Field of this line"
+msgstr "Modèle de cette ligne"
+
+#. module: base_workingdays
+#: help:res.company,workingday_saturday:0
+msgid "Checked if employees of this company works on saturday"
+msgstr "Coché si les employés de la société travaillent le samedi"
+
+#. module: base_workingdays
+#: model:ir.model,name:base_workingdays.model_res_company_day_validation
+msgid "Lines of objects to verify dates"
+msgstr "Lignes d'objet pour la vérification des dates"
+
+#. module: base_workingdays
+#: help:res.company.workdate,company_id:0
+msgid "Company for this working date"
+msgstr "Société pour cette date travaillée"
+
+#. module: base_workingdays
+#: help:res.company.day.validation,company_id:0
+msgid "Company of this line"
+msgstr "Société pour cette ligne"
+
+#. module: base_workingdays
+#: help:res.company,workingday_monday:0
+msgid "Checked if employees of this company works on monday"
+msgstr "Coché si les employés de la société travaillent le lundi"
+
+#. module: base_workingdays
+#: field:res.company.day.validation,company_id:0
+#: field:res.company.workdate,company_id:0
+msgid "Company"
+msgstr "Société"
+
+#. module: base_workingdays
+#: field:res.company,workingday_friday:0
+msgid "Friday"
+msgstr "Vendredi"
+
+#. module: base_workingdays
+#: help:res.company,workingday_tuesday:0
+msgid "Checked if employees of this company works on tuesday"
+msgstr "Coché si les employés de la société travaillent le mardi"
+
+#. module: base_workingdays
+#: help:res.company,specific_working_date_ids:0
+msgid "List of dates worked, to bypass not worked dates"
+msgstr "Liste des dates travaillées. Pris en priorité sur les dates non-travaillées."
+
+#. module: base_workingdays
+#: field:res.company.workdate,date:0
+msgid "Date"
+msgstr "Date"
+
+#. module: base_workingdays
+#: sql_constraint:res.company.workdate:0
+msgid "Date must be unique per company !"
+msgstr "Date doit être unique par société !"
+
+#. module: base_workingdays
+#: help:res.company,workingday_thursday:0
+msgid "Checked if employees of this company works on thursday"
+msgstr "Coché si les employés de la société travaillent le jeudi"
+
+#. module: base_workingdays
+#: help:res.company,workingday_friday:0
+msgid "Checked if employees of this company works on friday"
+msgstr "Coché si les employés de la société travaillent le vendredi"
+
+#. module: base_workingdays
+#: view:res.company:0
+msgid "Specific Working Days"
+msgstr "Jours travaillés exceptionnellement"
+
+#. module: base_workingdays
+#: sql_constraint:res.company:0
+msgid "The company name must be unique !"
+msgstr "Le nom de la société doit être unique !"
+
+#. module: base_workingdays
+#: view:res.company:0
+msgid "Lines"
+msgstr "Lignes"
+
+#. module: base_workingdays
+#: field:res.company,specific_working_date_ids:0
+msgid "Specific Working Date"
+msgstr "Dates travaillées exceptionnellement"
+
+#. module: base_workingdays
+#: model:ir.model,name:base_workingdays.model_res_company
+msgid "Companies"
+msgstr "Sociétés"
+
+#. module: base_workingdays
+#: field:res.company,workingday_wednesday:0
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#. module: base_workingdays
+#: model:ir.model,name:base_workingdays.model_res_company_workdate
+#: help:res.company.workdate,date:0
+msgid "Specific working date"
+msgstr "Dates travaillées exceptionnellement"
+
+#. module: base_workingdays
+#: field:res.company.day.validation,model_id:0
+msgid "Model"
+msgstr "Modèle"
+
+#. module: base_workingdays
+#: help:res.company.day.validation,model_id:0
+msgid "Model of this line"
+msgstr "Modèle de cette ligne"
+
+#. module: base_workingdays
+#: model:ir.model,name:base_workingdays.model_res_country_workdates
+msgid "Working dates by country"
+msgstr "Jours travaillés par pays"
+
+#. module: base_workingdays
+#: field:res.company,workingday_monday:0
+msgid "Monday"
+msgstr "Lundi"
+
+#. module: base_workingdays
+#: help:res.company,workingday_sunday:0
+msgid "Checked if employees of this company works on sunday"
+msgstr "Coché si les employés de la société travaillent le dimanche"
+
+#. module: base_workingdays
+#: field:res.company,workingday_tuesday:0
+msgid "Tuesday"
+msgstr "Mardi"
+
+#. module: base_workingdays
+#: sql_constraint:res.company.day.validation:0
+msgid "The model/field couple must be unique per company !"
+msgstr "Modèle/Champ doit être unique par société !"
+
+#. module: base_workingdays
+#: field:res.company,days_validation_ids:0
+msgid "Days Validation"
+msgstr "Jours de validation"
+
+#. module: base_workingdays
+#: field:res.company,workingday_saturday:0
+msgid "Saturday"
+msgstr "Samedi"
+
+#. module: base_workingdays
+#: help:res.company,days_validation_ids:0
+msgid "Lines of fields to check on write"
+msgstr "Lignes des champs à vérifier à l'enregistrement"
+
+#. module: base_workingdays
+#: field:res.company.day.validation,before:0
+msgid "Before"
+msgstr "Avant"
+
