@@ -285,23 +285,22 @@ def new_orm_create(self, cr, uid, values, context=None):
     # Use a read for having only company_id field because if we install a new module with new field required, the browse try to get it.
     user = self.pool.get('res.users').read(cr, uid, uid, ['company_id'], context=context)
     if user['company_id']:
-        company_id = user['company_id']
+        company_id = user['company_id'][0]
 
     # If the model has a company_id, get it
     if 'company_id' in values:
         company_id = values['company_id']
 
     if company_id:
-        # Read country_id on the selected company
-        company = res_company_obj.browse(cr, uid, company_id, context=context)
-
-        if company.country_id:
-            # Search for validation configurations currently on written fields
-            day_validation_line_ids = day_validation_line_obj.search(cr, uid, [('company_id.country_id', '=', company.country_id.id), ('model_id.model', '=', self._name), ('field_id.name', 'in', values.keys())], context=context)
-            for line in day_validation_line_obj.browse(cr, uid, day_validation_line_ids, context=context):
-                if values[line.field_id.name]:
-                    # Verify dates, and adjust if needed
-                    values[line.field_id.name] = res_company_obj.verify_valid_date(cr, uid, [company_id], values[line.field_id.name], before=line.before, context=None)[company_id]
+        # Search for validation configurations currently on written fields
+        day_validation_line_ids = day_validation_line_obj.search(cr, uid, [
+            ('company_id', '=', company_id),
+            ('model_id.model', '=', self._name),
+            ('field_id.name', 'in', values.keys())], context=context)
+        for line in day_validation_line_obj.browse(cr, uid, day_validation_line_ids, context=context):
+            if values[line.field_id.name]:
+                # Verify dates, and adjust if needed
+                values[line.field_id.name] = res_company_obj.verify_valid_date(cr, uid, [company_id], values[line.field_id.name], before=line.before, context=None)[company_id]
 
     # Call standard behaviour
     return original_orm_create(self, cr, uid, values, context=context)
@@ -324,7 +323,7 @@ def new_orm_write(self, cr, uid, ids, values, context=None):
     # Use a read for having only company_id field because if we install a new module with new field required, the browse try to get it.
     user = self.pool.get('res.users').read(cr, uid, uid, ['company_id'], context=context)
     if user['company_id']:
-        company_id = user['company_id']
+        company_id = user['company_id'][0]
 
     # If the used model has no company, search for its value
     model_fields = self.fields_get_keys(cr, uid, context=context)
@@ -340,16 +339,16 @@ def new_orm_write(self, cr, uid, ids, values, context=None):
             company_id = company_ids[id]
 
         if company_id:
-            # Read country_id on the selected company
-            company = res_company_obj.browse(cr, uid, company_id, context=context)
-
-            if company.country_id:
-                # Search for validation configurations currently on written fields
-                day_validation_line_ids = day_validation_line_obj.search(cr, uid, [('company_id.country_id', '=', company.country_id.id), ('model_id.model', '=', self._name), ('field_id.name', 'in', values.keys())], context=context)
-                for line in day_validation_line_obj.browse(cr, uid, day_validation_line_ids, context=context):
-                    if values[line.field_id.name]:
-                        # Verify dates, and adjust if needed
-                        values[line.field_id.name] = res_company_obj.verify_valid_date(cr, uid, [company_id], values[line.field_id.name], before=line.before, context=None)[company_id]
+            # Search for validation configurations currently on written fields
+            day_validation_line_ids = day_validation_line_obj.search(cr, uid, [
+                ('company_id', '=', company_id),
+                ('model_id.model', '=', self._name),
+                ('field_id.name', 'in', values.keys())
+            ], context=context)
+            for line in day_validation_line_obj.browse(cr, uid, day_validation_line_ids, context=context):
+                if values[line.field_id.name]:
+                    # Verify dates, and adjust if needed
+                    values[line.field_id.name] = res_company_obj.verify_valid_date(cr, uid, [company_id], values[line.field_id.name], before=line.before, context=None)[company_id]
 
     # Call standard behaviour
     return original_orm_write(self, cr, uid, ids, values, context=context)
