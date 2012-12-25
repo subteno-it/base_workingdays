@@ -30,6 +30,7 @@ from openerp.tools.translate import _
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, rruleset, DAILY, MO, TU, WE, TH, FR, SA, SU
 from datetime import datetime
+from pytz import utc, timezone
 
 
 class res_company(osv.osv):
@@ -62,6 +63,11 @@ class res_company(osv.osv):
         Searches the first available date before or after 'date' argument
         Available dates are checked days, limited to work days from country
         """
+
+        user_obj = self.pool.get('res.users')
+        # Get context from user
+        ctx = user_obj.context_get(cr, uid)
+
         res_country_workdates_obj = self.pool.get('res.country.workdates')
 
         #Check if the field 'date' is date or datetime format
@@ -71,6 +77,12 @@ class res_company(osv.osv):
         else:
             date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
             is_date = False
+            # We will calculate datetime based on the timezone of the user if set
+            if ctx['tz']:
+                date = utc.localize(date, is_dst=True).astimezone(timezone(ctx['tz']))
+                # Remove TZ in datetime
+                date = date.strftime('%Y-%m-%d %H:%M:%S')
+                date = datetime.strptime(date, '%Y-%m-%d %H:%M:%S')
 
         # Initialize return value
         valid_dates = {}
@@ -128,6 +140,9 @@ class res_company(osv.osv):
             if is_date:
                 valid_dates[company.id] = chosen_day.strftime('%Y-%m-%d')
             else:
+                # We convert the date without timezone of user
+                if ctx['tz']:
+                    chosen_day = timezone(ctx['tz']).localize(chosen_day, is_dst=True).astimezone(utc)
                 valid_dates[company.id] = chosen_day.strftime('%Y-%m-%d %H:%M:%S')
 
         return valid_dates
