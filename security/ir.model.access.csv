@@ -1,1 +1,7 @@
 "id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
+access_res_company_workdate,access_res_company_workdate,model_res_company_workdate,,1,0,0,0
+access_res_company_workdate_manager,access_res_company_workdate,model_res_company_workdate,base.group_erp_manager,1,1,1,1
+access_res_country_workdates,access_res_country_workdates,model_res_country_workdates,,1,0,0,0
+access_res_country_workdates_manager,access_res_country_workdates,model_res_country_workdates,base.group_erp_manager,1,1,1,1
+access_res_company_day_validation,access_res_company_day_validation,model_res_company_day_validation,,1,0,0,0
+access_res_company_day_validation_manager,access_res_company_day_validation,model_res_company_day_validation,base.group_erp_manager,1,1,1,1

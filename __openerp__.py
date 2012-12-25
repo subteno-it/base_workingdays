@@ -40,6 +40,7 @@ Just France is set for the days not worked.
     'init_xml': [],
     'images': [],
     'update_xml': [
+        'security/ir.model.access.csv',
         'base_view.xml',
     ],
     'demo_xml': [],
