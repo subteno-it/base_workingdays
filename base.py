@@ -23,10 +23,10 @@
 #
 ##############################################################################
 
-from osv import osv
-from osv import fields
-from osv import orm
-from tools.translate import _
+from openerp.osv import osv
+from openerp.osv import fields
+from openerp.osv import orm
+from openerp.tools.translate import _
 from dateutil.relativedelta import relativedelta
 from dateutil.rrule import rrule, rruleset, DAILY, MO, TU, WE, TH, FR, SA, SU
 from datetime import datetime
@@ -282,9 +282,9 @@ def new_orm_create(self, cr, uid, values, context=None):
     company_id = 0
 
     # Retrieve the company of the user
-    user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-    if user.company_id:
-        company_id = user.company_id.id
+    user = self.pool.get('res.users').read(cr, uid, uid, ['company_id'], context=context)
+    if user['company_id']:
+        company_id = user['company_id']
 
     # If the model has a company_id, get it
     if 'company_id' in values:
@@ -320,17 +320,17 @@ def new_orm_write(self, cr, uid, ids, values, context=None):
         ids = [ids]
 
     # Retrieve the company of the user
-    user = self.pool.get('res.users').browse(cr, uid, uid, context=context)
-    if user.company_id:
-        company_id = user.company_id.id
+    user = self.pool.get('res.users').read(cr, uid, uid, ['company_id'], context=context)
+    if user['company_id']:
+        company_id = user['company_id']
 
     # If the used model has no company, search for its value
     model_fields = self.fields_get_keys(cr, uid, context=context)
     if 'company_id' in values:
         company_id = values['company_id']
     elif 'company_id' in model_fields and not 'company_id' in values:
-        self_data = self.browse(cr, uid, ids, context=context)
-        company_ids = dict([(data.id, data.company_id and data.company_id.id or company_id) for data in self_data])
+        self_data = self.read(cr, uid, ids, ['company_id'], context=context)
+        company_ids = dict([(data['id'], data['company_id'] and data['company_id'][0] or company_id) for data in self_data])
 
     for id in ids:
         # Retrieve the good company_id, if necessary
