@@ -32,20 +32,20 @@
             <field name="priority" eval="80"/>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                    <xpath expr="//page[@string='Configuration']" position="after">
-                        <page string="Working Days" col="6">
-                            <separator string="Working Days" colspan="6"/>
-                            <group colspan="6" col="8">
-                                <field name="workingday_monday"/>
-                                <field name="workingday_wednesday"/>
-                                <field name="workingday_friday"/>
-                                <field name="workingday_sunday"/>
-                                <field name="workingday_tuesday"/>
-                                <field name="workingday_thursday"/>
-                                <field name="workingday_saturday"/>
-                            </group>
-                            <newline/>
-                            <group colspan="4" col="6">
+                <xpath expr="//page[@string='Configuration']" position="after">
+                    <page string="Working Days" col="6">
+                        <separator string="Working Days" colspan="6"/>
+                        <group colspan="6" col="8">
+                            <field name="workingday_monday"/>
+                            <field name="workingday_wednesday"/>
+                            <field name="workingday_friday"/>
+                            <field name="workingday_sunday"/>
+                            <field name="workingday_tuesday"/>
+                            <field name="workingday_thursday"/>
+                            <field name="workingday_saturday"/>
+                        </group>
+                        <newline/>
+                        <group colspan="4" col="6">
                             <separator string="Validation Days" colspan="4"/>
                             <separator string="Specific Working Days" colspan="2"/>
                             <field name="days_validation_ids" nolabel="1" colspan="4">
@@ -65,9 +65,9 @@
                                     <field name="date"/>
                                 </tree>
                             </field>
-                            </group>
-                        </page>
-                    </xpath>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
 
