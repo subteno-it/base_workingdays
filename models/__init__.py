@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    base_workingdays module for OpenERP, Manage working days
-#    Copyright (C) 2012 SYLEAM Info Services (<http://www.syleam.fr/>)
+#    Copyright (C) 2016 SYLEAM Info Services (<http://www.syleam.fr>)
 #              Sebastien LANGE <sebastien.lange@syleam.fr>
 #
 #    This file is a part of base_workingdays
@@ -22,7 +22,11 @@
 #
 ##############################################################################
 
-
+import res_company_workdate
+import res_country_workdates
+import res_company_day_validation
+import res_company
 import models
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

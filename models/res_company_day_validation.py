@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    base_workingdays module for OpenERP, Manage working days
-#    Copyright (C) 2012 SYLEAM Info Services (<http://www.syleam.fr/>)
+#    Copyright (C) 2016 SYLEAM Info Services (<http://www.syleam.fr>)
 #              Sebastien LANGE <sebastien.lange@syleam.fr>
 #
 #    This file is a part of base_workingdays
@@ -22,7 +22,30 @@
 #
 ##############################################################################
 
+from openerp.osv import osv
+from openerp.osv import fields
+from openerp.tools.translate import _
 
-import models
+
+class res_company_day_validation(osv.osv):
+    _name = 'res.company.day.validation'
+    _description = 'Lines of objects to verify dates'
+
+    _columns = {
+        'company_id': fields.many2one('res.company', 'Company', help='Company of this line'),
+        'model_id': fields.many2one('ir.model', 'Model', required=True, help='Model of this line'),
+        'field_id': fields.many2one('ir.model.fields', 'Field', domain="[('model_id', '=', model_id), ('ttype', 'in', ('date', 'datetime'))]", required=True, help='Field of this line'),
+        'before': fields.boolean('Before', help='Check if the computed date must be before the original date'),
+    }
+
+    _defaults = {
+        'before': False,
+    }
+
+    _sql_constraints = [
+        ('uniq_model_field', 'unique(company_id, model_id, field_id)', _('The model/field couple must be unique per company !')),
+    ]
+
+res_company_day_validation()
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

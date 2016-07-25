@@ -28,13 +28,11 @@
         <record id="view_res_company_form" model="ir.ui.view">
             <field name="name">res.company.form</field>
             <field name="model">res.company</field>
-            <field name="type">form</field>
-            <field name="priority" eval="80"/>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//page[@string='Configuration']" position="after">
                     <page string="Working Days" col="6">
-                        <separator string="Working Days" colspan="6"/>
+                        <separator string="Working Days" name="working_day" colspan="6"/>
                         <group colspan="6" col="8">
                             <field name="workingday_monday"/>
                             <field name="workingday_wednesday"/>
@@ -48,17 +46,12 @@
                         <group colspan="4" col="6">
                             <separator string="Validation Days" colspan="4"/>
                             <separator string="Specific Working Days" colspan="2"/>
-                            <field name="days_validation_ids" nolabel="1" colspan="4">
+                            <field name="days_validation_ids" nolabel="1" colspan="4" editable="bottom">
                                 <tree string="Lines">
                                     <field name="model_id"/>
                                     <field name="field_id"/>
                                     <field name="before"/>
                                 </tree>
-                                <form string="Lines">
-                                    <field name="model_id"/>
-                                    <field name="field_id"/>
-                                    <field name="before"/>
-                                </form>
                             </field>
                             <field name="specific_working_date_ids" nolabel="1" mode="tree" colspan="2">
                                 <tree string="Specific Working Days" editable="bottom">

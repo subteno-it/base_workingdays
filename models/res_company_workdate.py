@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    base_workingdays module for OpenERP, Manage working days
-#    Copyright (C) 2012 SYLEAM Info Services (<http://www.syleam.fr/>)
+#    Copyright (C) 2016 SYLEAM Info Services (<http://www.syleam.fr>)
 #              Sebastien LANGE <sebastien.lange@syleam.fr>
 #
 #    This file is a part of base_workingdays
@@ -22,7 +22,19 @@
 #
 ##############################################################################
 
+from openerp import models, fields
 
-import models
+
+class ResCompanyWorkdate(models.Model):
+    _name = 'res.company.workdate'
+    _description = 'Specific working date'
+
+    company_id = fields.Many2one(comodel_name='res.company', string='Company', default=lambda self: self.env['res.company']._company_default_get('res.company.workdate'), help='Company for this working date')
+    date = fields.Date(string='Date', required=True, help='Specific working date')
+
+    _sql_constraints = [
+        ('uniq_date', 'unique(company_id, date)', 'Date must be unique per company !'),
+    ]
+
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

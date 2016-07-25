@@ -41,7 +41,7 @@ Just France is set for the days not worked.
     'images': [],
     'update_xml': [
         'security/ir.model.access.csv',
-        'base_view.xml',
+        'views/res_company.xml',
     ],
     'demo_xml': [],
     'test': [],
