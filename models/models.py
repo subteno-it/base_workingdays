@@ -80,39 +80,40 @@ def new_orm_write(self, values):
     if not self:
         return True
 
-    day_validation_line_obj = self.env['res.company.day.validation']
-    res_company_obj = self.env['res.company']
-    company_id = 0
+    if str(self._model) != 'ir.module.module':
+        day_validation_line_obj = self.env['res.company.day.validation']
+        res_company_obj = self.env['res.company']
+        company_id = 0
 
-    # Retrieve the company of the user
-    if self.env.user.company_id.id:
-        company_id = self.env.user.company_id.id
+        # Retrieve the company of the user
+        if self.env.user.company_id.id:
+            company_id = self.env.user.company_id.id
 
-    # If the used model has no company, search for its value
-    model_fields = self.fields_get_keys()
-    if 'company_id' in values:
-        company_id = values['company_id']
-    elif 'company_id' in model_fields and 'company_id' not in values:
-        self_data = self.read(['company_id'])
-        company_ids = dict([(data['id'], data['company_id'] and data['company_id'][0] or company_id) for data in self_data])
+        # If the used model has no company, search for its value
+        model_fields = self.fields_get_keys()
+        if 'company_id' in values:
+            company_id = values['company_id']
+        elif 'company_id' in model_fields and 'company_id' not in values:
+            self_data = self.read(['company_id'])
+            company_ids = dict([(data['id'], data['company_id'] and data['company_id'][0] or company_id) for data in self_data])
 
-    for record in self:
-        # Retrieve the good company_id, if necessary
-        if 'company_id' in model_fields and 'company_id' not in values:
-            company_id = company_ids[record.id]
+        for record in self:
+            # Retrieve the good company_id, if necessary
+            if 'company_id' in model_fields and 'company_id' not in values:
+                company_id = company_ids[record.id]
 
-        if company_id:
-            # Search for validation configurations currently on written fields
-            day_validation_line_ids = day_validation_line_obj.search([
-                ('company_id', '=', company_id),
-                ('model_id.model', '=', self._name),
-                ('field_id.name', 'in', values.keys())
-            ])
-            company = res_company_obj.browse(company_id)
-            for line in day_validation_line_ids:
-                if values[line.field_id.name]:
-                    # Verify dates, and adjust if needed
-                    values[line.field_id.name] = company.verify_valid_date(values[line.field_id.name], before=line.before)[company_id]
+            if company_id:
+                # Search for validation configurations currently on written fields
+                day_validation_line_ids = day_validation_line_obj.search([
+                    ('company_id', '=', company_id),
+                    ('model_id.model', '=', self._name),
+                    ('field_id.name', 'in', values.keys())
+                ])
+                company = res_company_obj.browse(company_id)
+                for line in day_validation_line_ids:
+                    if values[line.field_id.name]:
+                        # Verify dates, and adjust if needed
+                        values[line.field_id.name] = company.verify_valid_date(values[line.field_id.name], before=line.before)[company_id]
 
     # Call standard behaviour
     return original_orm_write(self, values)
