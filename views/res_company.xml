@@ -30,7 +30,7 @@
             <field name="model">res.company</field>
             <field name="inherit_id" ref="base.view_company_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//page[@string='Configuration']" position="after">
+                <xpath expr="//page[@name='configuration']" position="after">
                     <page string="Working Days" col="6">
                         <separator string="Working Days" name="working_day" colspan="6"/>
                         <group colspan="6" col="8">
