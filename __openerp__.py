@@ -37,15 +37,12 @@ Just France is set for the days not worked.
     'depends': [
         'base',
     ],
-    'init_xml': [],
-    'images': [],
-    'update_xml': [
+    'data': [
         'security/ir.model.access.csv',
         'views/res_company.xml',
     ],
-    'demo_xml': [],
+    'demo': [],
     'test': [],
-    #'external_dependancies': {'python': ['kombu'], 'bin': ['which']},
     'installable': True,
     'active': False,
     'license': 'AGPL-3',
