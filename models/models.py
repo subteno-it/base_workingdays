@@ -37,7 +37,7 @@ original_orm_write = models.Model.write
 
 @api.model
 @api.returns('self', lambda value: value.id)
-def new_orm_create(self, values):
+def new_orm_create(self, vals):
     """
     New create method for the orm
     Automatically checks for dates before doing the real create
@@ -51,28 +51,28 @@ def new_orm_create(self, values):
         company_id = self.env.user.company_id.id
 
     # If the model has a company_id, get it
-    if 'company_id' in values:
-        company_id = values['company_id']
+    if 'company_id' in vals:
+        company_id = vals['company_id']
 
     if company_id:
         # Search for validation configurations currently on written fields
         day_validation_line_ids = day_validation_line_obj.search([
             ('company_id', '=', company_id),
             ('model_id.model', '=', self._name),
-            ('field_id.name', 'in', values.keys())
+            ('field_id.name', 'in', vals.keys())
         ])
         company = res_company_obj.browse(company_id)
         for line in day_validation_line_ids:
-            if values[line.field_id.name]:
+            if vals[line.field_id.name]:
                 # Verify dates, and adjust if needed
-                values[line.field_id.name] = company.verify_valid_date(values[line.field_id.name], before=line.before)[company_id]
+                vals[line.field_id.name] = company.verify_valid_date(vals[line.field_id.name], before=line.before)[company_id]
 
     # Call standard behaviour
-    return original_orm_create(self, values)
+    return original_orm_create(self, vals)
 
 
 @api.multi
-def new_orm_write(self, values):
+def new_orm_write(self, vals):
     """
     New write method for the orm
     Automatically checks for dates before doing the real write
@@ -91,15 +91,15 @@ def new_orm_write(self, values):
 
         # If the used model has no company, search for its value
         model_fields = self.fields_get_keys()
-        if 'company_id' in values:
-            company_id = values['company_id']
-        elif 'company_id' in model_fields and 'company_id' not in values:
+        if 'company_id' in vals:
+            company_id = vals['company_id']
+        elif 'company_id' in model_fields and 'company_id' not in vals:
             self_data = self.read(['company_id'])
             company_ids = dict([(data['id'], data['company_id'] and data['company_id'][0] or company_id) for data in self_data])
 
         for record in self:
             # Retrieve the good company_id, if necessary
-            if 'company_id' in model_fields and 'company_id' not in values:
+            if 'company_id' in model_fields and 'company_id' not in vals:
                 company_id = company_ids[record.id]
 
             if company_id:
@@ -107,16 +107,16 @@ def new_orm_write(self, values):
                 day_validation_line_ids = day_validation_line_obj.search([
                     ('company_id', '=', company_id),
                     ('model_id.model', '=', self._name),
-                    ('field_id.name', 'in', values.keys())
+                    ('field_id.name', 'in', vals.keys())
                 ])
                 company = res_company_obj.browse(company_id)
                 for line in day_validation_line_ids:
-                    if values[line.field_id.name]:
+                    if vals[line.field_id.name]:
                         # Verify dates, and adjust if needed
-                        values[line.field_id.name] = company.verify_valid_date(values[line.field_id.name], before=line.before)[company_id]
+                        vals[line.field_id.name] = company.verify_valid_date(vals[line.field_id.name], before=line.before)[company_id]
 
     # Call standard behaviour
-    return original_orm_write(self, values)
+    return original_orm_write(self, vals)
 
 # Attaches the new create method to the orm
 models.Model.create = new_orm_create
