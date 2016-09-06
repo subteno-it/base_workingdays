@@ -30,9 +30,9 @@ from openerp import models, api
 #####
 
 # Save the original create method to call it after
-original_orm_create = models.Model.create
+original_orm_create = models.BaseModel.create
 # Save the original write method to call it after
-original_orm_write = models.Model.write
+original_orm_write = models.BaseModel.write
 
 
 @api.model
@@ -119,8 +119,8 @@ def new_orm_write(self, vals):
     return original_orm_write(self, vals)
 
 # Attaches the new create method to the orm
-models.Model.create = new_orm_create
+models.BaseModel.create = new_orm_create
 # Attaches the new write method to the orm
-models.Model.write = new_orm_write
+models.BaseModel.write = new_orm_write
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
