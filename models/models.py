@@ -1,28 +1,8 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    base_workingdays module for OpenERP, Manage working days
-#    Copyright (C) 2016 SYLEAM Info Services (<http://www.syleam.fr>)
-#              Sebastien LANGE <sebastien.lange@syleam.fr>
-#
-#    This file is a part of base_workingdays
-#
-#    base_workingdays is free software: you can redistribute it and/or modify
-#    it under the terms of the GNU Affero General Public License as published by
-#    the Free Software Foundation, either version 3 of the License, or
-#    (at your option) any later version.
-#
-#    base_workingdays is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU Affero General Public License for more details.
-#
-#    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-##############################################################################
+# Copyright 2012 Syleam
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from openerp import models, api
+from odoo import models, api
 
 
 #####
@@ -30,14 +10,14 @@ from openerp import models, api
 #####
 
 # Save the original create method to call it after
-original_orm_create = models.BaseModel.create
+original_create = models.BaseModel.create
 # Save the original write method to call it after
-original_orm_write = models.BaseModel.write
+original_write = models.BaseModel.write
 
 
 @api.model
 @api.returns('self', lambda value: value.id)
-def new_orm_create(self, vals):
+def new_create(self, vals):
     """
     New create method for the orm
     Automatically checks for dates before doing the real create
@@ -68,11 +48,11 @@ def new_orm_create(self, vals):
                 vals[line.field_id.name] = company.verify_valid_date(vals[line.field_id.name], before=line.before)[company_id]
 
     # Call standard behaviour
-    return original_orm_create(self, vals)
+    return original_create(self, vals)
 
 
 @api.multi
-def new_orm_write(self, vals):
+def new_write(self, vals):
     """
     New write method for the orm
     Automatically checks for dates before doing the real write
@@ -80,7 +60,7 @@ def new_orm_write(self, vals):
     if not self:
         return True
 
-    if str(self._model) != 'ir.module.module':
+    if self._table != 'ir_module_module':
         day_validation_line_obj = self.env['res.company.day.validation']
         res_company_obj = self.env['res.company']
         company_id = 0
@@ -116,11 +96,9 @@ def new_orm_write(self, vals):
                         vals[line.field_id.name] = company.verify_valid_date(vals[line.field_id.name], before=line.before)[company_id]
 
     # Call standard behaviour
-    return original_orm_write(self, vals)
+    return original_write(self, vals)
 
 # Attaches the new create method to the orm
-models.BaseModel.create = new_orm_create
+models.BaseModel.create = new_create
 # Attaches the new write method to the orm
-models.BaseModel.write = new_orm_write
-
-# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+models.BaseModel.write = new_write

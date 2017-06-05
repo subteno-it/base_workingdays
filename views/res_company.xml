@@ -1,68 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<openerp>
-    <data>
-        ##############################################################################
-        #
-        #    base_workingdays module for OpenERP, Manage working days
-        #    Copyright (C) 2012 SYLEAM Info Services ([http://www.syleam.fr/]) 
-        #              Sebastien LANGE [sebastien.lange@syleam.fr]
-        #              Sylvain GARANGER [sylvain.garancher@syleam.fr]
-        #
-        #    This file is a part of base_workingdays
-        #
-        #    base_workingdays is free software: you can redistribute it and/or modify
-        #    it under the terms of the GNU Affero General Public License as published by
-        #    the Free Software Foundation, either version 3 of the License, or
-        #    (at your option) any later version.
-        #
-        #    base_workingdays is distributed in the hope that it will be useful,
-        #    but WITHOUT ANY WARRANTY; without even the implied warranty of
-        #    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-        #    GNU Affero General Public License for more details.
-        #
-        #    You should have received a copy of the GNU Affero General Public License
-        #    along with this program.  If not, see [http://www.gnu.org/licenses/].
-        #
-        ##############################################################################
-
-        <record id="view_res_company_form" model="ir.ui.view">
-            <field name="name">res.company.form</field>
-            <field name="model">res.company</field>
-            <field name="inherit_id" ref="base.view_company_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//page[@name='configuration']" position="after">
-                    <page string="Working Days" col="6">
-                        <separator string="Working Days" name="working_day" colspan="6"/>
-                        <group colspan="6" col="8">
-                            <field name="workingday_monday"/>
-                            <field name="workingday_wednesday"/>
-                            <field name="workingday_friday"/>
-                            <field name="workingday_sunday"/>
-                            <field name="workingday_tuesday"/>
-                            <field name="workingday_thursday"/>
-                            <field name="workingday_saturday"/>
-                        </group>
-                        <newline/>
-                        <group colspan="4" col="6">
-                            <separator string="Validation Days" colspan="4"/>
-                            <separator string="Specific Working Days" colspan="2"/>
-                            <field name="days_validation_ids" nolabel="1" colspan="4" editable="bottom">
-                                <tree string="Lines">
-                                    <field name="model_id"/>
-                                    <field name="field_id"/>
-                                    <field name="before"/>
-                                </tree>
-                            </field>
-                            <field name="specific_working_date_ids" nolabel="1" mode="tree" colspan="2">
-                                <tree string="Specific Working Days" editable="bottom">
-                                    <field name="date"/>
-                                </tree>
-                            </field>
-                        </group>
-                    </page>
-                </xpath>
-            </field>
-        </record>
-
-    </data>
-</openerp>
+<!--
+    Copyright 2017 SYLEAM Info Services
+    License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+-->
+<odoo>
+    <record id="view_res_company_form" model="ir.ui.view">
+        <field name="name">res.company.form</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Working Days" col="6">
+                    <separator string="Working Days" name="working_day" colspan="6"/>
+                    <group colspan="6" col="8">
+                        <field name="workingday_monday"/>
+                        <field name="workingday_wednesday"/>
+                        <field name="workingday_friday"/>
+                        <field name="workingday_sunday"/>
+                        <field name="workingday_tuesday"/>
+                        <field name="workingday_thursday"/>
+                        <field name="workingday_saturday"/>
+                    </group>
+                    <newline/>
+                    <group colspan="4" col="6">
+                        <separator string="Validation Days" colspan="4"/>
+                        <separator string="Specific Working Days" colspan="2"/>
+                        <field name="days_validation_ids" nolabel="1" colspan="4">
+                            <tree string="Lines" editable="bottom">
+                                <field name="model_id"/>
+                                <field name="field_id" domain="[('model_id', '=', model_id), ('ttype', 'in', ('date', 'datetime'))]"/>
+                                <field name="before"/>
+                            </tree>
+                        </field>
+                        <field name="specific_working_date_ids" nolabel="1" mode="tree" colspan="2">
+                            <tree string="Specific Working Days" editable="bottom">
+                                <field name="date"/>
+                            </tree>
+                        </field>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>
